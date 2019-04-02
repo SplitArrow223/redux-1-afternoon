@@ -16,6 +16,8 @@ export const LAST_NAME = 'LAST_NAME';
 export const INGREDIENTS = 'INGREDIENTS';
 export const INSTRUCTIONS = 'INSTRUCTIONS';
 export const RECIPE_LIST = 'RECIPE_LIST';
+export const CLEAR_INPUTS = 'CLEAR_INPUTS';
+export const DELETED = 'DELETED';
 
 function reducer(state = initialState, action) {
   const {type, payload} = action;  
@@ -54,7 +56,23 @@ function reducer(state = initialState, action) {
     };
     const newRecipes = [...state.recipes, recipe];
     return {...state, recipes: newRecipes };
-      default: return state;
+
+    case CLEAR_INPUTS:
+    return {...state,
+      name: initialState.name,
+      category: initialState.category,
+      authorFirst: initialState.authorFirst,
+      authorLast: initialState.authorLast,
+      ingredients: initialState.ingredients,
+      instructions: initialState.instructions
+    };
+    case DELETED:
+      const deleted = state.recipes.splice(payload, 1)
+      return {...state, deleted};
+
+    default: return state;
   }
 }
-export default createStore(reducer);
+export default createStore(reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && 
+    window.__REDUX_DEVTOOLS_EXTENSION__());

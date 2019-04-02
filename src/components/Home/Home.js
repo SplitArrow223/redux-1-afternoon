@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
-import store from '../../store';
+import store, {DELETED} from '../../store';
 import "./Home.css";
 
 class Home extends Component {
@@ -11,6 +11,20 @@ class Home extends Component {
     this.state = {
       recipes: storeState.recipes
     };
+  }
+  deleteOne = (i) => {
+    store.dispatch({
+      type: DELETED,
+      payload: i
+    })
+  }
+  componentDidMount() {
+    store.subscribe(() => {
+      const storeState = store.getState();
+      this.setState({
+        recipes: storeState.recipes
+      })
+    })
   }
 
   render() {
@@ -24,6 +38,7 @@ class Home extends Component {
           authorLast={recipe.authorLast}
           ingredients={recipe.ingredients}
           instructions={recipe.instructions}
+          deleteOne={() => this.deleteOne(i)}
         />
       );
     });

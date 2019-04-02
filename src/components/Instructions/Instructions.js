@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import store, {INSTRUCTIONS, RECIPE_LIST} from '../../store'
+import store, {INSTRUCTIONS, RECIPE_LIST, CLEAR_INPUTS} from '../../store'
 
 class Instructions extends Component {
   constructor(props) {
@@ -28,6 +28,9 @@ class Instructions extends Component {
   create() {
     store.dispatch({
       type: RECIPE_LIST,
+    })
+    store.dispatch({
+      type: CLEAR_INPUTS
     })
   }
   componentDidMount() {
